@@ -1,41 +1,57 @@
-[![DOI](https://zenodo.org/badge/265119113.svg)](https://zenodo.org/badge/latestdoi/265119113)
+# Sobol Analysis
+These scripts perform a coupled analysis to estimate the expected annual flood damages of 2,000 hypothetical houses in Selinsgrove, PA. The analysis is organized in four parts: (1) initialization of the study region and hypothetical houses; (2) a statistical analysis to sample the discharge uncertainty; (3) a hydraulic model (LISFLOOD-FP) to estimate the flood hazard; (4) an exposure-vulnerability model to estimate the flood risk. 
 
-# metarepo
-Template repository for a single point of access meta-repository to reproduce an experiment
+Users need to clone the R scripts and the “Inputs” folder, then run the code from 01 to 12 by the order. The exact roles of each piece of code and input files are described in detail below.
 
-## Purpose
-A meta-repository creates a single point of access for someone to find all of the components that were used to create a published work for the purpose of reproducibility.  This repository should contain references to all minted data and software as well as house any ancillary code used to transform the source data, create figures for your publication, conduct the experiment, and / or execute the contributing software.
+Required input files: 
+Selinsgrove’s boundary shapefile (/Inputs/clip_area/clip_area.shp)
+Selinsgrove’s clipped land use and land cover map (/Inputs/NLCD/NLCD2016_clip)
+Land use grid (/Inputs/lulc.asc)
+Roads shapefile (/Inputs/Roads/roads.shp)
+Susquehanna River shapefile (/Inputs/Rivers/rivers.shp)
+Selinsgrove’s boundaries shapefile (/Inputs/selinsgrove_shapefile/Selinsgrove.shp)
+Susquehanna west river bank shapefile (/Inputs/Susquehanna_west_bank/west_bank.shp)
+House price shapefile (/Inputs/houses_for_sale/houses_for_sale.shp)
+*lisflood.exe as the application file that runs the LISFLOOD-FP model
 
-## Using the template
-Simply click `Use this template` on the main repository page (shows up to the left of `Clone or download`) and fill in your `Repository name`, the `Description`, select whether you want the repository to be `Public` or `Private`, and leave `Include all branches` unchecked.
+01-DEMs_and_land_cover.R
+This script reads Selinsgrove’s boundary shapefile and clipped land shapefile to generate three gridded files representing three digital elevation model (DEM) resolutions and another file representing the land use and land cover.
 
-## Naming your meta-repository
-The following naming conventions should be used when naming your repository:  
-- Single author:  `lastname_year_journal`
-- Multi author:  `lastname-etal_year_journal`
-- Multiple publications in the same journal:  `lastname-etal_year-letter_journal` (e.g., `human-etal_2020-b_nature`)
+02-hypothetical_houses.R
+This script reads the land use land cover file, the shapefiles of roads and rivers. Then it extracts the urban regions and randomly samples 2,000 hypothetical houses within the urban region. 
 
-## Customize your `.gitignore` file
-A general `.gitignore` for use with Python or R development is included.  However, you may wish to customize this to the needs of your project.  The `.gitignore` file lets Git know what to push to the remote repository and what needs to be ignored and stay local.
+03-hypothetical_house_prices.R
+This script reads the river bank shapefile and the house price shapefile. Then it uses a linear regression to estimate the unit house price based on the distance to the river and the elevation above the river. The prices of the hypothetical houses are determined by the best estimate of this regression model.
 
-## Suggestions
-- Don't bog down your repository with a bunch of raw data.  Instead archive and mint a DOI for your data and provide the reference in this repository with instructions for use.
-- Create complete and tested documentation for how to use what is in this repository to reproduce your experiment.
+These three scripts form the initialization.
 
-## Creating a minted release for your meta-repository
-It is important to version and release your meta-repository as well due to changes that may occur during the publication review process.  If you do not know how to conduct a release on GitHub when linked with Zenodo, please contact chris.vernon@pnnl.gov to get set up.  
+04-discharge_GEV_MLE.R
+This script downloads the historical annual maximum flood discharge data, and uses a Generalized Extreme Value (GEV) model to fit the data. The maximum likelihood GEV parameter estimates are saved.
 
-## The meta-repository markdown template
-A sample meta-repository template is provided in this repository in the file `metarepo_template.md`.  
+05-Estimate_MCMC.R
+This script quantifies the uncertainty of GEV parameters by Markov Chain Monte Carlo (MCMC) method. It saves the MCMC chains of the parameters.
 
-To use it, do the following:
-1. Create the template repository as mentioned above in [Using the template](#using-the-template)
-2. Clone your new repository to you local machine
-3. Change directories into your new meta-repository directory you just cloned
-4. Run `git rm README.md` to delete this file (`README.md`) and commit it using `git commit -m 'remove instructions'`
-5. Rename `metarepo_template.md` as `README.md`
-6. Run `git add README.md` to stage the new file that will show up on load in your remote GitHub repository
-7. Run `git rm metarepo_template.md` to remove the original template
-8. Run `git commit -m 'set up new template as readme'` to set the changes
-9. Run `git push` to send the changes to your remote GitHub repository
-10. Modify the `README.md` file to represent your experiement and use the `add`, `commit`, `push` workflow to update your remote repository
+06-Return_Periods.R
+This script estimates the discharge of a certain return level. It can compare the flood level with and without considering the GEV parameter uncertainty. In this study the estimated 100-year return level discharges based on MCMC results are saved.
+
+These three scripts form the statistical analysis.
+
+07-Sensobol_indices.R
+This script generates all the input parameter samples of the LISFLOOD-FP model, and then runs the Sobol’ sensitivity analysis. The input parameters are discharge (sampled by MCMC analysis), river depth, river width, floodplain roughness, river channel roughness, and DEM resolution. This script then estimates the house damages based on house vulnerability and exposure. The LISFLOOD-FP model can estimate the grid-level flood depth at the hypothetical houses, which is the flood hazard. Multiplying hazard by vulnerability and exposure gives the risk. The Sobol’ analysis is conducted under both risk space and hazard space.
+
+08-radial_plot_tables_risk.R
+09-radial_plot_tables_hazard.R
+These scripts organize the outputs from Sobol’ analysis to generate a table to make plots. One is in risk space and the other is in hazard space.
+
+10-radial_plot_risk.R
+11-radial_plot_hazard.R
+These scripts plot a radial plot to visualize the Sobol’ analysis outputs. One is in risk space and the other is in hazard space.
+
+12-prior_and_response_pdf_plot.R
+This script plots the probability density distribution of the input parameters.
+
+haz_risk_function.R
+This script runs the LISFLOOD model and is called in script 07.
+
+sobol_functions.R
+This script contains some functions that test the significance of Sobol’ analysis outputs. 
