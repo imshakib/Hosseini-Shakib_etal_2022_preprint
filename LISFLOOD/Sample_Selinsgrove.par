@@ -1,0 +1,11 @@
+resroot	SLNGRV
+dirroot	results
+sim_time	100000.0
+initial_tstep	2.0
+DEMfile	dem30.asc
+fpfric	0.12
+riverfile	Selinsgrove.river
+elevoff	
+depthoff	
+adaptoff	
+chainageoff	
