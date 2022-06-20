@@ -1,4 +1,4 @@
-# Hosseini-Shakib_etal_2022_Nat_Clim_Chang
+# Hosseini-Shakib_etal_2022_preprint
 
 **Uncertainties surrounding flood hazard estimates is the primary driver of riverine flood risk projections**
 
@@ -16,7 +16,7 @@ Iman Hosseini-Shakib<sup>1\*</sup>, Sanjib Sharma<sup>1</sup>, Benjamin Seiyon L
 Flooding drives considerable risks. Designing strategies to manage these risks is complicated by the often large uncertainty surrounding flood-risk projections. Uncertainty surrounding flood risks can stem, for example, from choices regarding boundary conditions, model structures, and parameters. Dynamic interactions among hazard, exposure, and vulnerability can modulate the uncertainty surrounding flood risks. A quantitative understanding of which factors drive uncertainties surrounding flood hazards and risks can inform the design of mission-oriented research. Here characterize key uncertainties impacting flood-risk projections and perform a global sensitivity analysis to characterize the most important drivers of the uncertainties surrounding flood hazards and risks. We find that the flood risk model is sensitive to upstream discharge, river bed elevation, channel roughness and digital elevation model resolution. 
 
 ## Journal reference
-Hosseini-Shakib, I., Sharma, S., Lee, B.S., Srikrishnan, V.A., Nicholas, R., & Keller, K. (2022). Uncertainties surrounding flood hazard estimates is the primary driver of riverine flood risk projections. _Nature Climate Change_, Under review
+Hosseini-Shakib, I., Sharma, S., Lee, B.S., Srikrishnan, V.A., Nicholas, R., & Keller, K. (2022). Uncertainties surrounding flood hazard estimates is the primary driver of riverine flood risk projections. _preprint_
 
 ## Data reference
 
