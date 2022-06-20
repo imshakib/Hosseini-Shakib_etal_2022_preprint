@@ -5,8 +5,12 @@
 Iman Hosseini-Shakib<sup>1\*</sup>, Sanjib Sharma<sup>1</sup>, Benjamin Seiyon Lee<sup>2</sup>, Vivek Anand Srikrishnan<sup>3</sup>, Robert Nicholas<sup>1,4</sup>, and Klaus Keller<sup>1,5</sup>
 
 <sup>1 </sup> Earth and Environmental Systems Institute, The Pennsylvania State University, University Park, PA, USA
+<sup>2 </sup> Department of Statistics, George Mason University, Fairfax, VA, USA
+<sup>3 </sup> Department of Biological & Environmental Engineering, Cornell University, Ithaca, NY, USA
+<sup>4 </sup> Department of Meteorology and Atmospheric Science, The Pennsylvania State University, University Park, PA, USA
+<sup>5 </sup> Thayer School of Engineering, Dartmouth College, Hanover, NH, USA
 
-\* corresponding author:  email@myorg.gov
+\* corresponding author:  ikh5084@psu.edu & ishakib@gmail.com 
 
 ## Abstract
 In this paper the authors develop a long-term global energy-economic model which is capable of assessing alternative energy evolutions over periods of up to 100 years. The authors have sought to construct the model so that it can perform its assigned task with as simple a modelling system as possible. The model structure is fully documented and a brief summary of results is given.
