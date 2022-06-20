@@ -21,7 +21,7 @@ Hosseini-Shakib, I., Sharma, S., Lee, B.S., Srikrishnan, V.A., Nicholas, R., & K
 ## Data reference
 
 ### Input data
-The 1/3 arcsec digital elevation model (DEM) tile for Selinsgrove,PA is downloaded from the USGS website at API: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w077/USGS_13_n41w077_20220429.tif
+The 1/3 arcsec digital elevation model (DEM) tile for Selinsgrove,PA is downloaded from the USGS website at API: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w077/USGS_13_n41w077_20220429.tif <br />
 The small size input data are stored in the "Inputs" folder and are as follows:
 - "Isle of Que": shapefile of the Isle of Que in Selinsgrove
 - "NLCD": Land use land cover 30m gridded data from the USGS National Land Cover Database (2016) clipped for Selinsgrove, PA
