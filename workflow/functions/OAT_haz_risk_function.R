@@ -54,9 +54,9 @@ haz_risk_run<-function(i){
   
   print(paste("Run", i))
   # Run LISFLOOD-FP on Desktop
-  system("./lisflood -v Selinsgrove.par")
+  #system("./lisflood -v Selinsgrove.par")
   # Run LISFLOOD-FP on cluster
-  #system("./lisflood.exe -v Selinsgrove.par")
+  system("./lisflood.exe -v Selinsgrove.par")
   #file.rename(paste0("./results/run", i, ".max"), "./results/max.asc")
   
   #flood extent
