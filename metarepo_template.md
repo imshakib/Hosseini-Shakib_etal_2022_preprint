@@ -13,10 +13,10 @@ Iman Hosseini-Shakib<sup>1\*</sup>, Sanjib Sharma<sup>1</sup>, Benjamin Seiyon L
 \* corresponding author:  ishakib@gmail.com 
 
 ## Abstract
-In this paper the authors develop a long-term global energy-economic model which is capable of assessing alternative energy evolutions over periods of up to 100 years. The authors have sought to construct the model so that it can perform its assigned task with as simple a modelling system as possible. The model structure is fully documented and a brief summary of results is given.
+Flooding drives considerable risks. Designing strategies to manage these risks is complicated by the often large uncertainty surrounding flood-risk projections. Uncertainty surrounding flood risks can stem, for example, from choices regarding boundary conditions, model structures, and parameters. Dynamic interactions among hazard, exposure, and vulnerability can modulate the uncertainty surrounding flood risks. A quantitative understanding of which factors drive uncertainties surrounding flood hazards and risks can inform the design of mission-oriented research. Here characterize key uncertainties impacting flood-risk projections and perfor a global sensitivity analysis to characterize the most important drivers of the uncertainties surrounding flood hazards and risks. We find that the flood risk model is sensitive to upstream discharge, river bed elevation, channel roughness and digital elevation model resolution. 
 
 ## Journal reference
-Edmonds, J., & Reilly, J. (1983). A long-term global energy-economic model of carbon dioxide release from fossil fuel use. Energy Economics, 5(2), 74-88. DOI: https://doi.org/10.1016/0140-9883(83)90014-2
+Hosseini-Shakib, I., Sharma, S., Lee, B.S., Srikrishnan, V.A., Nicholas, R., & Keller, K. (2022). Uncertainties surrounding flood hazard estimates is the primary driver of riverine flood risk projections. Nature Climate Change, Under review
 
 ## Code reference
 References for each minted software release for all code involved.  
