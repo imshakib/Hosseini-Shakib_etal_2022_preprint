@@ -43,7 +43,7 @@ library(extRemes)
 if (!is.null(wd))
   setwd(wd)
 
-# Download annual maximum instantaneous river flow data of the USGS gauge Susquehanna River at Sunbury
+# Download annual maximum instantaneous river flow data of the USGS gauge of Susquehanna River at Sunbury
 annu_max_Q <- readNWISpeak(
   "01554000",
   startDate = "",
