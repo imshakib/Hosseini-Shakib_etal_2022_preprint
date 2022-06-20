@@ -37,9 +37,11 @@
 ##      1. Click on Source button or, on console, type: Source("../../....R")
 ##==============================================================================
 
-# Global variables
-wd<-getwd()
-setwd(wd)
+# Set working directory
+(wd <- getwd())
+if (!is.null(wd))
+  setwd(wd)
+
 set.seed(0)
 if("fExtremes" %in% (.packages())){
   detach("package:fExtremes", unload=TRUE)
@@ -50,10 +52,10 @@ if("evd" %in% (.packages())){
 
 library(evir)
 myblue<-rgb(0.68, 0.85, 0.90,0.5)
-load("./annual_maxima_cms.RData") # Annual maxima of discharge in cms
-load("./GEV_Parameters.RData") # Frequentist maximum likelihood GEV parameter set
-load("./GEV_Parameters_MCMC.RData") # MCMC parameter sets
-load('./Q_sample_A.RData') # sampled discharge data
+load("./Outputs/RData/annual_maxima_cms.RData") # Annual maxima of discharge in cms
+load("./Outputs/RData/GEV_Parameters.RData") # Frequentist maximum likelihood GEV parameter set
+load("./Outputs/RData/GEV_Parameters_MCMC.RData") # MCMC parameter sets
+load('./Outputs/RData/Q_sample_A.RData') # sampled discharge data
 
 pdf_fun <- function(x,mu,sigma,xi){
   d<-dgev(x,mu=mu,sigma=sigma,xi=xi)
@@ -91,8 +93,7 @@ PDF<-sapply(1:nrow(mcmcSamples), function(x) {
 })
 PDF[is.nan(PDF)] <- 1e-20
 rownames(PDF)<-plot_Qs
-save(PDF,file='./discharge_uncertainty_pdf.RData')
-#load('./discharge_uncertainty_pdf.RData')
+save(PDF,file='./Outputs/RData/discharge_uncertainty_pdf.RData')
 
 # Matrix of MCMC CDF values
 CDF<-sapply(1:nrow(mcmcSamples), function(x) {
@@ -100,19 +101,12 @@ CDF<-sapply(1:nrow(mcmcSamples), function(x) {
 })
 CDF[is.nan(CDF)] <- 1e-20
 rownames(CDF)<-plot_Qs
-save(CDF,file='./discharge_uncertainty_cdf.RData')
-#load('./discharge_uncertainty_cdf.RData')
+save(CDF,file='./Outputs/RData/discharge_uncertainty_cdf.RData')
 
 #Bayesian posterior mean  
 mean_Bayes_Q<-sapply(1:length(plot_Qs), function(x){mean(PDF[x,])})
 mean_surv_bayes<- sapply(1:length(plot_Qs), function(x){1-mean(CDF[x,])})
 
-#Bayesian maximum a posteriori GEV 
-
-# max_Bayes_Q<-dgev(min(plot_Qs):max(plot_Qs),mu=GEV_est_MAP[1],sigma=GEV_est_MAP[2],
-#               xi=GEV_est_MAP[3])
-# max_surv_bayes<- sapply(min(plot_Qs):max(plot_Qs), function (x){1-cdf_fun(x,
-#                                                             mu=GEV_est_MAP[1],sigma=GEV_est_MAP[2],xi=GEV_est_MAP[3])})
 #Sampled discharge
 sample_Q<-sort(Q_samp_A) # 2000 samples from MCMC results
 pdf_sample_Q<-density(sample_Q)
@@ -126,7 +120,7 @@ upper_95 <- sapply(1:length(plot_Qs), function (x) {quantile(PDF[x,],0.95)})
 surv_lower_5 <- sapply(1:length(plot_Qs), function (x){1-quantile(CDF[x,],0.95)})
 surv_upper_95 <- sapply(1:length(plot_Qs), function (x) {1-quantile(CDF[x,],0.05)})
 
-pdf("Discharge_90percent_Uncertainty_PDF.pdf",width =4.86,height =7.88)
+pdf("./Outputs/Figures/Discharge_90percent_Uncertainty_PDF.pdf",width =4.86,height =7.88)
 ################################################
 ### Panel A
 ################################################
@@ -167,7 +161,6 @@ polygon(x = c(plot_Qs,rev(plot_Qs)),
 
 lines(min(plot_Qs):max(plot_Qs),MLE_Q,lty=1,col="red",lwd=2)
 lines(plot_Qs,mean_Bayes_Q,lty=1,col="blue",lwd=2)
-# lines(pdf_sample_Q$x[-(1:19)],pdf_sample_Q$y[-(1:19)] ,lty=2,col="green",lwd=2)
 lines(pdf_sample_Q$x,pdf_sample_Q$y ,lty=2,col="green",lwd=2)
 # Legend
 legend(12000,ymax-ymax*0.01,
@@ -187,8 +180,6 @@ text(xmin+1000,ymax-ymax*0.05,"a)",cex=1.5)
 ### Panel B
 ################################################
 # plot survival functions
-#pdf("Discharge_Uncertainty_PDF1.pdf",width =3.94,height =2.43)
-
 par(cex=0.5,mai=c(0.5,0.4,0.1,0.3)) # mai   c(bottom, left, top, right)
 
 ymin=1.5e-5
@@ -240,4 +231,4 @@ legend(12000,1.5,
 text(xmin+1000,0.5,"b)",cex=1.5)
 
 dev.off()
-
+rm(list=setdiff(ls(), c("my_files","code")))

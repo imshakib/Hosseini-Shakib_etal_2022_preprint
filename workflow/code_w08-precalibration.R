@@ -45,11 +45,11 @@ wd<-getwd()
 setwd(wd)
 
 # load  Initial parameter sets
-load('./initial_parameter_set.RData')
+load('./Outputs/RData/initial_parameter_set.RData')
 
 # create a folder for results
-if (dir.exists(paste0(wd, "/Initial_Outputs/Precalibration")) == F)
-  dir.create(paste0(wd, "/Initial_Outputs/Precalibration"))
+if (dir.exists(paste0(wd, "./Outputs/Initial_Outputs/Precalibration")) == F)
+  dir.create(paste0(wd, "./Outputs/Initial_Outputs/Precalibration"))
 
 # set a row number for parameter sets
 para<-data.frame(row_no=1:nrow(para),para)
@@ -64,7 +64,7 @@ discharge<-discharge[1,4]*0.3048^3 # convert to cms
 error<-0.06 # based on USGS individual discharge measurement maximum error from:
 # https://pubs.usgs.gov/of/1992/ofr92-144/#:~:text=The%20study%20indicates%20that%20standard,3%20percent%20to%206%20percent.
 
-# which runs have discharge values within the range of error?
+# Double check to see if all runs have discharge values within the range of error?
 runs<-para[para[,'Q']>discharge*(1-error),]
 runs<-runs[runs[,'Q']<discharge*(1+error),]
 runs<-runs[,1]
@@ -75,7 +75,7 @@ Isle_of_Que<- readOGR("./Inputs/Isle_of_Que/Isle_of_Que.shp") # Isle of Que in S
 # extract flood extent maps for the Isle of Que and take the average of flood depth
 precalib_data<-data.frame()
 for(i in 1:length(runs)){
-  flood_extent<-raster(paste0(wd,'/Initial_Outputs/Extent/run',runs[i],'.max'),format='ascii')
+    flood_extent<-raster(paste0(wd,'./Outputs/Initial_Outputs/Extent/run',runs[i],'.max'),format='ascii')
   flood_extent<-mask(flood_extent,Isle_of_Que)
   table<-as.data.frame(flood_extent, xy = F,na.rm=T)
   flood_depth<-mean(table[,1])
@@ -84,10 +84,11 @@ for(i in 1:length(runs)){
   print(i)
 }
 colnames(precalib_data)<-c("run_no.","flood_depth_(m)")
-save(precalib_data,file = './precalib_data.RData')
-# load('./precalib_data.RData')
+save(precalib_data,file = './Outputs/RData/precalib_data.RData')
 
-pdf("precalibration.pdf",width =8, height =8/1.618)
+# load('./Pregenerated_run_results/precalib_data.RData')
+
+pdf("./Outputs/Figures/precalibration.pdf",width =8, height =8/1.618)
 
 hist(precalib_data$`flood_depth_(m)`,breaks=50,xlim=c(0,10),
      main="",xlab="Flood depth (m)")
@@ -118,43 +119,11 @@ realistic_runs<-realistic_runs[,1]
 #These are the rows in the ensemble that have to be removed as a result of precalibration
 
 del.rows<-sort(unique(unrealistic_runs))
-save(del.rows,file = './deleted_rows_after_precalib.RData')
+save(del.rows,file = './Outputs/RData/deleted_rows_after_precalib.RData')
 
 #These are the rows in the ensemble that have survived the precalibration
 
 survived.rows<-sort(unique(realistic_runs))
-save(survived.rows,file = './survived_rows_after_precalib.RData')
+save(survived.rows,file = './Outputs/RData/survived_rows_after_precalib.RData')
 
-
-# head.rows<-0:37*N
-# data<-NULL
-# for (i in 1:length(del.rows)) {
-#   for (j in 1:length(head.rows)) {
-#     k<-(del.rows[i]+head.rows[j])
-#     data<-rbind(data,k)
-#   }
-#   
-# }
-# data<-sort(data)
-# 
-# 
-# load('./ensemble.RData')
-# precalib_mat<-mat
-# precalib_mat<-precalib_mat[-data,]
-# save(precalib_mat,file = './precalib_ensemble.RData')
-# 
-# load('./parameter_set.RData')
-# precalib_para<-para
-# precalib_para<-precalib_para[-data,]
-# save(precalib_para,file = './precalib_parameter_set.RData')
-# 
-# load('./model_response.RData')
-# precalib_model_response<-model_response[,-1]
-# precalib_model_response<-precalib_model_response[-data,]
-# save(precalib_model_response,file = './precalib_model_response.RData')
-# 
-# #which parameter sets had realistic model runs and which had unrealistic?
-# realistic_params<-para[realistic_runs,-1]
-# unrealistic_params<-para[unrealistic_runs,-1]
-# save(realistic_params,file = './precalib_realistic_params.RData')
-# save(unrealistic_params,file = './precalib_unrealistic_params.RData')
+rm(list=setdiff(ls(), c("my_files","code")))

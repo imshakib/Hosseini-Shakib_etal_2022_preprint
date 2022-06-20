@@ -34,7 +34,6 @@
 ##      1. Click on Source button or, on console, type: Source("../../....R")
 ##==============================================================================
 # Start the program here
-rm(list=ls()) #Just in case, remove any variable that is already loaded 
 
 pkgs<-c(
   "adaptMCMC",
@@ -64,4 +63,4 @@ for (i in 1:length(pkgs)) {
     install.packages(pkgs[i], quiet = T) 
   } 
 }
-rm(list = ls())
+rm(list=setdiff(ls(), c("my_files","code")))

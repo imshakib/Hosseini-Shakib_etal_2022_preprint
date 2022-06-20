@@ -48,7 +48,7 @@ k <- length(params) # number of parameters
 
 
 # loading samples of discharge data from MCMC posterior
-load('Q_for_precalib.RData')
+load('./Outputs/RData/Q_for_precalib.RData')
 Q<-Q_for_precalib
 
 # function map between [0,1] and a bounded parameter range
@@ -88,5 +88,5 @@ para[, "DEM"] <- runif(N, min=0, max=1)
 nrow(unique(para))==N
 # [1] TRUE
 
-save(para,file = './initial_parameter_set.RData')
-rm(list = ls())
+save(para,file = './Outputs/RData/initial_parameter_set.RData')
+rm(list=setdiff(ls(), c("my_files","code")))

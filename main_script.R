@@ -55,24 +55,24 @@ rm(list=ls()) #Just in case, remove any variable that is already loaded
 graphics.off() #to make sure the user does not have an open figure
 
 # Create the folders for storing output data and figures
-tmp <- paste0(getwd(), "/Figures/")
-if(dir.exists(tmp)==F){dir.create(tmp, recursive=T)}
-
 tmp <- paste0(getwd(), "/Outputs/")
 if(dir.exists(tmp)==F){dir.create(tmp, recursive=T)}
 
 tmp <- paste0(getwd(), "/Outputs/Figures/")
 if(dir.exists(tmp)==F){dir.create(tmp, recursive=T)}
 
+tmp <- paste0(getwd(), "/Outputs/RData/")
+if(dir.exists(tmp)==F){dir.create(tmp, recursive=T)}
+
 # Start running the codes 
-workflow<-list.files('./workflow/', pattern = "code_w")
-for (i in workflow) {
+my_files<-list.files('./workflow/', pattern = "code_w")
+for (code  in my_files) {
   source(paste0('./workflow/',i))
   print(paste0("Finished running ",i))
 }
 
-figures<-list.files('./figures/', pattern = "code_f")
-for (j in figures) {
+my_files<-list.files('./figures/', pattern = "code_f")
+for (code  in my_files) {
   source(paste0('./figures/',j))
   print(paste0("Finished running ",j))
 }

@@ -35,11 +35,14 @@
 ##      1. Click on Source button or, on console, type: Source("../../....R")
 ##==============================================================================
 library(GGally)
-wd<-getwd()
-setwd(wd)
-load('./survived_rows_after_precalib.RData')
-load('./deleted_rows_after_precalib.RData')
-load('./initial_parameter_set.RData')
+# Set working directory
+(wd <- getwd())
+if (!is.null(wd))
+  setwd(wd)
+
+load('./Outputs/RData/survived_rows_after_precalib.RData')
+load('./Outputs/RData/deleted_rows_after_precalib.RData')
+load('./Outputs/RData/initial_parameter_set.RData')
 
 unrealistic_params<-para[del.rows,]
 unrealistic_params<-data.frame(unrealistic_params,type='1-rejected')
@@ -48,12 +51,12 @@ realistic_params<-data.frame(realistic_params,type='2-surviving')
 
 parameters<-rbind(realistic_params,unrealistic_params)
 myplot<-ggpairs(parameters,aes(colour=type,alpha=0.5))
-ggsave('./precalib_pairs_plot_10k.pdf',myplot,width = 16,height = 16,units = c("in"),dpi=1200)
+ggsave('./Outputs/Figures/precalib_pairs_plot.pdf',myplot,width = 16,height = 16,units = c("in"),dpi=1200)
 
 myplot1<-ggpairs(realistic_params[1:6])
-ggsave('./precalib_surviving_pairs_plot_10k.pdf',myplot1,width = 16,height = 16,units = c("in"),dpi=1200)
+ggsave('./Outputs/Figures/precalib_surviving_pairs_plot.pdf',myplot1,width = 16,height = 16,units = c("in"),dpi=1200)
 
 myplot2<-ggpairs(unrealistic_params[1:6])
-ggsave('./precalib_rejected_pairs_plot_10k.pdf',myplot2,width = 16,height = 16,units = c("in"),dpi=1200)
+ggsave('./Outputs/Figures/precalib_rejected_pairs_plot.pdf',myplot2,width = 16,height = 16,units = c("in"),dpi=1200)
 
-rm(list = ls())
+rm(list=setdiff(ls(), c("my_files","code")))

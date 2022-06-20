@@ -2,11 +2,12 @@
 (wd <- getwd())
 if (!is.null(wd))
   setwd(wd)
-load('Q_sample_A.RData')
-load('./Q_sample_B.RData')
+load('./Outputs/RData/Q_sample_A.RData')
+load('./Outputs/RData/Q_sample_B.RData')
 
 parnames <- c("Q", "Z", "W", "n_ch", "n_fp", "DEM","V","X") # name of parameters
-parvals <- c(11300,0,0,0.03,0.12,30,0,0)
+
+parvals <- c(11300,0,0,0.03,0.12,30,0,0) #best guesses for flood of 2011 in Selinsgrove
 
 nsamp <- 10
 DEMsamp <- 3
@@ -43,5 +44,5 @@ para[para[,1]==parnames[6],'DEM']<-DEM
 para[para[,1]==parnames[7],'V']<-V
 para[para[,1]==parnames[8],'X']<-X
 para<-para[,-1]
-save(para,file='./OAT_parameter_set.RData')
-
+save(para,file='./Outputs/RData/OAT_parameter_set.RData')
+rm(list=setdiff(ls(), c("my_files","code")))

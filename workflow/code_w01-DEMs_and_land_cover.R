@@ -59,7 +59,7 @@ DEM30 <- aggregate(DEM10, fact = 30 / 10, fun = mean)
 DEM30 <- round(DEM30, digits = 2)
 DEM50 <- aggregate(DEM10, fact = 50 / 10, fun = mean)
 DEM50 <- round(DEM50, digits = 2)
-
+file.remove('./Inputs/USGS_13_n41w077_20220429.tif')
 # Clipped land use land cover map for Selinsgrove
 LULC <- raster("./Inputs/NLCD/NLCD2016_clip")
 LULC_proj <- projectRaster(LULC,
@@ -96,3 +96,4 @@ writeRaster(DEM50,
             "./Inputs/dem50.tif",
             format = "GTiff",
             overwrite = T, prj=T)
+rm(list=setdiff(ls(), c("my_files","code")))

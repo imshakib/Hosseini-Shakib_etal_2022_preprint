@@ -45,8 +45,8 @@ if (!is.null(wd))
 # model setup and run
 
 #parameter sets and functions
-load('precalibrated_param_set.RData')
-source('./haz_risk_function.R')
+load('Outputs/RData/precalibrated_param_set.RData')
+source('./workflow/functions/haz_risk_function.R')
 para<-precalibrated_param_set
 # Read LISFLOOD-FP river and parameter files
 sample_river <-
@@ -72,11 +72,7 @@ house_price <- raster("./Inputs/house_price.asc")
 
 
 run_start = 1 #starting row number of the parameters table to read
-run_end = 5#nrow(para) #ending row number of the parameters table to read
-
-
-#setwd(paste0(wd,'/LISFLOOD'))
-#system("./chmod a+x lisflood.exe") # activate the .exe file for the first time lisflood.exe is being executed
+run_end = nrow(para) #ending row number of the parameters table to read
 
 #setup parallel backend to use many processors
 cores=detectCores()
@@ -101,6 +97,7 @@ print(end-start)
 stopCluster(cl)
 
 # model run end
+
 # creating the model response table
 list <- list.files('./Outputs/Summary', pattern = '.csv')
 
@@ -111,6 +108,5 @@ for (i in seq_along(list)) {
   model_response[i,(1:4)] = data[1,(2:5)]
 }
 model_response <- model_response[order(model_response$run.no.),]
-write.csv(model_response,"model_response.csv")
-save(model_response,file="./model_response.RData")
-rm(list = ls())
+save(model_response,file="./Outputs/RData/model_response.RData")
+rm(list=setdiff(ls(), c("my_files","code")))

@@ -94,3 +94,4 @@ writeRaster(house_price,
             "./Inputs/house_price.asc",
             format = "ascii",
             overwrite = T)
+rm(list=setdiff(ls(), c("my_files","code")))

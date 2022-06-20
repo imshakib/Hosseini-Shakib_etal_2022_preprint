@@ -36,9 +36,11 @@
 ##      1. Click on Source button or, on console, type: Source("../../....R")
 ##==============================================================================
 
-wd<-getwd() #Gets the current directory 
-setwd(wd)
-set.seed(0)
+# Set working directory
+(wd <- getwd())
+if (!is.null(wd))
+  setwd(wd)
+
 mygreen <- rgb(44/255, 185/255, 95/255, 1) 
 myblue <- rgb(0/255, 128/255, 1, 1)
 myred <- rgb(1, 102/255, 102/255, 1)
@@ -48,11 +50,13 @@ library(RColorBrewer)
 library(graphics)
 library(plotrix)
 
-source('sobol_functions.R')
+source('./workflow/functions/sobol_functions.R')
 
 # input files that contain sobol indices
-sobol_file_1 <- "radial_plot_table_1_haz.csv"
-sobol_file_2 <- "radial_plot_table_2_haz.csv"
+sobol_file_1 <- "./Outputs/RData/radial_plot_table_1_haz.RData"
+sobol_file_2 <- "./Outputs/RData/radial_plot_table_2_haz.RData"
+
+
 
 n_params <- 8 # set number of parameters
 names=c('Discharge','River Bed\nElevation','River\nWidth','Channel\nRoughness',
@@ -62,11 +66,13 @@ cols=c('darkgreen','darkgreen','darkgreen','darkgreen',
 
 ## Import data from sensitivity analysis
 # First- and total-order indices
-s1st <- read.csv(sobol_file_1)[,-1]
+load(sobol_file_1)
+s1st <- df
 parnames <- s1st[,1]
 
 # Import second-order indices
-s2_table <- read.csv(sobol_file_2)
+load(sobol_file_2)
+s2_table <- df
 
 # Convert second-order to upper-triangular matrix
 s2 <- matrix(nrow=n_params, ncol=n_params, byrow=FALSE)
@@ -86,7 +92,8 @@ colnames(s2_conf_low) <- rownames(s2_conf_low) <- s1st$Parameter
 colnames(s2_conf_high) <- rownames(s2_conf_high) <- s1st$Parameter
 
 # Determine which indices are statistically significant
-dummy<-read.csv('./dummy_haz.csv')
+load('./Outputs/RData/dummy_haz.RData')
+dummy<-ind.dummy
 sig.cutoff_S1 <- dummy$high.ci[1]
 sig.cutoff_ST <- dummy$high.ci[2]
  
@@ -110,7 +117,7 @@ radi=0.6
 alph=360/(n_params)
 
 
-pdf('radial_plot_hazard.pdf',width =3.94, height =3.94)
+pdf('./Outputs/Figures/radial_plot_hazard.pdf',width =3.94, height =3.94)
 
 par(cex=0.5,mai=c(0.1,0.1,0.1,0.1))
 plot(c(-1,1),c(-1,1),bty="n",xlab="",ylab="",xaxt="n",yaxt="n",type="n")
@@ -163,18 +170,8 @@ text(x1+-0.2,y1+-0.83,paste(round(100*min(s1st1[s1st1[,"st_sig"]>=1,4])),'%',sep
 text(x1+-0.3,y1+-0.75,'Total-order')
 
 lines(c(x1+0.1,x1+0.2),c(y1+-0.97,y1+-0.97),lwd=5,col="darkblue")
-#lines(c(x1+0.3,x1+0.4),c(y1+-0.97,y1+-0.97),lwd=0.5,col="darkblue")
 text(x1+0.15,y1+-0.83,paste(round(100*max(s2[s2_sig1>=1],na.rm=T)),'%',sep=""))
-#text(x1+0.35,y1+-0.83,paste(round(100*min(s2[s2_sig1>=1],na.rm=T)),'%',sep=""))
-#text(x1+0.25,y1+-0.75,'Second-order')
 text(x1+0.15,y1+-0.75,'Second-order')
 
-#par(fig=c(0,1,0,1),new=T)
-#plot(c(0,1),c(0,1),type="n",bty="n",xaxt="n",yaxt="n")
-#text(0.9,0.9,'Earth sciences',cex=1.5,col="darkgreen", font=2)#,srt=-50)
-#text(0.5,0.24,'Social sciences',cex=1.5,col="purple", font=2)#,srt=20)
-#text(0.08,0.66,'Engineering',cex=1.5,col="darkred", font=2)#,srt=-90)
-
 dev.off()
-
-
+rm(list=setdiff(ls(), c("my_files","code")))

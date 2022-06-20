@@ -10,8 +10,8 @@ if (!is.null(wd))
 # model setup and run
 
 #parameter sets and functions
-load('OAT_parameter_set.RData')
-source('./OAT_haz_risk_function.R')
+load('./Outputs/RData/OAT_parameter_set.RData')
+source('./workflow/functions/OAT_haz_risk_function.R')
 
 # Read the depth-damage table and hypothetical houses unit price estimate raster
 vulner_table <-
@@ -20,29 +20,25 @@ house_price <- raster("./Inputs/house_price.asc")
 
 # Read LISFLOOD-FP river and parameter files
 sample_river <-
-  as.matrix(read.delim2("./LISFLOOD_8/Sample_Selinsgrove.river", header = F)) # sample Susquehanna River file
+  as.matrix(read.delim2("./LISFLOOD/Sample_Selinsgrove.river", header = F)) # sample Susquehanna River file
 sample_par <-
-  as.matrix(read.delim2("./LISFLOOD_8/Sample_Selinsgrove.par", header = F)) # sample parameter file
+  as.matrix(read.delim2("./LISFLOOD/Sample_Selinsgrove.par", header = F)) # sample parameter file
 
 # Output folders
-if (dir.exists(paste0(wd, "/OAT")) == F)
-  dir.create(paste0(wd, "/OAT"))
-if (dir.exists(paste0(wd, "/OAT/Extent")) == F)
-  dir.create(paste0(wd, "/OAT/Extent"))
-if (dir.exists(paste0(wd, "/OAT/Hazard")) == F)
-  dir.create(paste0(wd, "/OAT/Hazard"))
-if (dir.exists(paste0(wd, "/OAT/Risk")) == F)
-  dir.create(paste0(wd, "/OAT/Risk"))
-if (dir.exists(paste0(wd, "/OAT/Summary")) == F)
-  dir.create(paste0(wd, "/OAT/Summary"))
+if (dir.exists(paste0(wd, "./Outputs/OAT")) == F)
+  dir.create(paste0(wd, "./Outputs/OAT"))
+if (dir.exists(paste0(wd, "./Outputs/OAT/Extent")) == F)
+  dir.create(paste0(wd, "./Outputs/OAT/Extent"))
+if (dir.exists(paste0(wd, "./Outputs/OAT/Hazard")) == F)
+  dir.create(paste0(wd, "./Outputs/OAT/Hazard"))
+if (dir.exists(paste0(wd, "./Outputs/OAT/Risk")) == F)
+  dir.create(paste0(wd, "./Outputs/OAT/Risk"))
+if (dir.exists(paste0(wd, "./Outputs/OAT/Summary")) == F)
+  dir.create(paste0(wd, "./Outputs/OAT/Summary"))
 
 
 run_start = 1 #starting row number of the parameters table to read
-run_end = nrow(para) #ending row number of the parameters table to read
-
-
-#setwd(paste0(wd,'/LISFLOOD'))
-#system("./chmod a+x lisflood.exe") # activate the .exe file for the first time lisflood.exe is being executed
+run_end = 2#nrow(para) #ending row number of the parameters table to read
 
 #setup parallel backend to use many processors
 cores=detectCores()
@@ -69,15 +65,14 @@ stopCluster(cl)
 # model run end
 
 # creating the model response table
-list <- list.files('./OAT/Summary', pattern = '.csv')
+list <- list.files('./Outputs/OAT/Summary', pattern = '.csv')
 
 model_response<-data.frame()
 for (i in seq_along(list)) {
   print(i)
-  data = read.csv(paste0('./OAT/Summary/', list[i]))
+  data = read.csv(paste0('./Outputs/OAT/Summary/', list[i]))
   model_response[i,(1:4)] = data[1,(2:5)]
 }
 model_response <- model_response[order(model_response$run.no.),]
-write.csv(model_response,"OAT_model_response.csv")
-save(model_response,file="./OAT_model_response.RData")
-rm(list = ls())
+save(model_response,file="./Outputs/RData/OAT_model_response.RData")
+rm(list=setdiff(ls(), c("my_files","code")))

@@ -52,10 +52,10 @@ annu_max_Q <- readNWISpeak(
 annu_max_Q<-data.frame(annu_max_Q$peak_dt,annu_max_Q$peak_va)[-(1:3),]
 colnames(annu_max_Q)<-c("dates","peak_va")
 
-pdf(file="peaks_plot.pdf",pointsize = 24,width = 11, height = 8.5)
+pdf(file="./Outputs/Figures/peaks_plot.pdf",pointsize = 24,width = 11, height = 8.5)
 par(mai=c(2,2,0.5,0.5)) # c(bottom, left, top, right)
 plot(annu_max_Q$dates, annu_max_Q$peak_va*.3048^3/1000,pch=21,col='red',bg='orange',
      xlab="Year",ylab=expression("Discharge (m"^3*"/s) x 1000"),ylim=c(0,20))
 
 dev.off()
-rm(list=ls())
+rm(list=setdiff(ls(), c("my_files","code")))

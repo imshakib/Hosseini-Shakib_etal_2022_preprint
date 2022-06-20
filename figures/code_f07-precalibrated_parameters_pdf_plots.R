@@ -33,20 +33,22 @@
 ## 2. To Run:
 ##      1. Click on Source button or, on console, type: Source("../../....R")
 ##==============================================================================
-wd<-getwd() #Gets the current directory 
-setwd(wd)
-load('./precalibrated_param_set.RData')
+# Set working directory
+(wd <- getwd())
+if (!is.null(wd))
+  setwd(wd)
+
+load('./Outputs/RData/precalibrated_param_set.RData')
 params<-c('Discharge (CMS)','River Bed Elevation Error (m)',
           'River Width Error','Channel Roughness',
           'Floodplain Roughness','DEM Resolution (m)',
           'Vulnerability', 'Exposure')
 
-pdf('precalibrated_parameters_pdfs.pdf',width =11, height =8.5)
+pdf('./Outputs/Figures/precalibrated_parameters_pdfs.pdf',width =11, height =8.5)
 
 par(cex=0.2,mai=c(0.25,0.25,0.25,0.25),mfrow=c(3,3))
 
 for(i in 1:8) hist(precalibrated_param_set[,i],main = params[i])
 
 dev.off()
-
-
+rm(list=setdiff(ls(), c("my_files","code")))

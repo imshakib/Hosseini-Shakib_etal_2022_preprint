@@ -42,11 +42,12 @@ library("TruncatedDistributions")
 if (!is.null(wd))
   setwd(wd)
 
-load('./Sobol_setup.RData')
-load('./initial_parameter_set.RData')
-load('./survived_rows_after_precalib.RData')
-load('Q_sample_A.RData')
-load('./Q_sample_B.RData')
+load('./Outputs/RData/initial_parameter_set.RData')
+load('./Outputs/RData/survived_rows_after_precalib.RData')
+load('./Outputs/RData/Q_sample_A.RData')
+load('./Outputs/RData/Q_sample_B.RData')
+
+N=2000 # number of prior samples
 
 #functions for ABi and ABij matrices
 ABi<-function(i){
@@ -129,7 +130,7 @@ ABij(7,8)
 )
 
 precalibrated_param_set<-rbind(A,B,AB_1st,AB_2nd)
-save(precalibrated_param_set,file='./precalibrated_param_set.RData')
+save(precalibrated_param_set,file='./Outputs/RData/precalibrated_param_set.RData')
 
 # ensemble
 mat<-precalibrated_param_set
@@ -153,6 +154,6 @@ mat[, "V"]<-map_range(mat[, "V"],c(-0.4,0.4),c(0,1))
 mat[, "X"]<-map_range(mat[, "X"],c(-0.4,0.4),c(0,1))
 
 precalibrated_ensemble<-mat
-save(precalibrated_ensemble,file = './precalibrated_ensemble.RData')
+save(precalibrated_ensemble,file = './Outputs/RData/precalibrated_ensemble.RData')
 
-rm(list = ls())
+rm(list=setdiff(ls(), c("my_files","code")))

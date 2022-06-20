@@ -37,7 +37,7 @@
 
 wd<-getwd()
 setwd(wd)
-load("annual_maxima_cms.RData") #annual maxima of discharge in cms
+load("./Outputs/RData/annual_maxima_cms.RData") #annual maxima of discharge in cms
 library(extRemes)
 
 ####################################################################################################
@@ -56,10 +56,10 @@ scale<-fit$results$par[2]
 shape<-fit$results$par[3]
 GEV_params=c(location,scale,shape)
 GEV_params
-save(GEV_params,file="GEV_Parameters.RData")
+save(GEV_params,file="./Outputs/RData/GEV_Parameters.RData")
 GEV_mle<-ci(fit, alpha = 0.05, type = c("parameter")) # From the fExtremes Packages
 
-save(GEV_mle,file="GEV_MLE.RData")
+save(GEV_mle,file="./Outputs/RData/GEV_MLE.RData")
 
 #######################################################################################################################################
 #######################################################################################################################################
@@ -90,15 +90,15 @@ lposterior<-function(par,dat){
 #######################################################################################################################################
 #######################################################################################################################################
 # Bayesian Approach - Maximum A Posteriori
-par.init<-GEV_est
-par.init[2]<-log(GEV_est[2])
+par.init<-GEV_params
+par.init[2]<-log(GEV_params[2])
 MAPoptimOutput<-optim(par = par.init ,fn = lposterior, dat=dat,  control=list(fnscale=-1),hessian=FALSE,
                    method = "L-BFGS-B" , 
                    lower = c(-Inf,-Inf,-Inf), upper = c(Inf,Inf,Inf))
 GEV_est_MAP<-MAPoptimOutput$par
 GEV_est_MAP[2]<-exp(GEV_est_MAP[2])
 GEV_est_MAP
-save(GEV_est_MAP,file="./GEV_Max_a_Posteriori.RData")
+save(GEV_est_MAP,file="./Outputs/RData/GEV_Max_a_Posteriori.RData")
 
 #######################################################################################################################################
 #######################################################################################################################################
@@ -122,11 +122,11 @@ amcmc.out = MCMC(p=lposterior, n=niter.mcmc, init=par.init, adapt=TRUE,
 amcmc.out$acceptance.rate
 mcmcSamples<-amcmc.out$samples[-(1:burnin),]
 mcmcSamples[,2]<-exp(mcmcSamples[,2])
-save(mcmcSamples,file="./GEV_Parameters_MCMC.RData")
+save(mcmcSamples,file="./Outputs/RData/GEV_Parameters_MCMC.RData")
 
 #####################################
 # Check for the convergence of MCMC parameters
-source("batchmeans.R") # Load helper functions
+source("./workflow/functions/batchmeans.R") # Load helper functions
 summaryMCMC<-bmmat(mcmcSamples) # Computes the batch means standard error for mcmc Chain
 summaryMCMC<-cbind(summaryMCMC,abs(summaryMCMC[,1]*0.01))
 # rows pertain to the GEV parameters - location, scale, and shape
@@ -164,16 +164,15 @@ bayesEstimator<-apply(mcmcSamples,2,function(x){c(mean(x), hpd(x))})
 rownames(bayesEstimator)<-c("Posterior Mean" , "95%CI-Low", "95%CI-High")
 # Results from Bayesian Approach (MCMC)
 bayesEstimator
-save(bayesEstimator,file="./GEV_Posterior_Mean.RData")
+save(bayesEstimator,file="./Outputs/RData/GEV_Posterior_Mean.RData")
 
 # Results from MLE Approach
 GEV_mle
 
 # Comparative plots for the results
-library(evd)
 xSeq<-seq(from=0,to=20000, length.out=100000)
-yDensity<-dgev(x = xSeq , loc = GEV_params[1] , scale = GEV_params[2] , shape = GEV_params[3])
-yDensityBayes<-dgev(x = xSeq , loc = bayesEstimator[1,1] , scale = bayesEstimator[1,2] , shape = bayesEstimator[1,3])
+yDensity<-devd(x = xSeq, loc = GEV_params[1] , scale = GEV_params[2] , shape = GEV_params[3],type="GEV")
+yDensityBayes<-devd(x = xSeq , loc = bayesEstimator[1,1] , scale = bayesEstimator[1,2] , shape = bayesEstimator[1,3],type="GEV")
 par(mfrow=c(2,2))
 plot(x=annu_max_Q[,1], y=annu_max_Q[,2], pch=16, main = "Observations")
 plot(density(annu_max_Q[,2]) , main= "Observation Density")
@@ -193,7 +192,7 @@ n=1 # number of random discharge samples from each MCMC parameter set
 discharge_df<-apply(mcmcSamples,1,function(x){revd(n,loc=x[1],scale=x[2],shape=x[3])})
 discharge_df<-as.data.frame(discharge_df)
 colnames(discharge_df)<-c('discharge_cms')
-save(discharge_df,file="./MCMC_Discharge_CMS.RData")
+save(discharge_df,file="./Outputs/RData/MCMC_Discharge_CMS.RData")
 #Taking random sample data from MCMC results
 N=2000
 set.seed(1)
@@ -215,12 +214,8 @@ error<-0.06 # based on USGS individual discharge measurement maximum error from:
 Q_for_precalib<-discharge_df[discharge_df[,1]>discharge*(1-error),]
 Q_for_precalib<-Q_for_precalib[Q_for_precalib<discharge*(1+error)]
 
+save(Q_samp_A,file='./Outputs/RData/Q_sample_A.RData')
+save(Q_samp_B,file='./Outputs/RData/Q_sample_B.RData')
+save(Q_for_precalib,file='./Outputs/RData/Q_for_precalib.RData')#for precailbration
 
-save(Q_samp_A,file='./Q_sample_A.RData')
-save(Q_samp_B,file='./Q_sample_B.RData')
-save(Q_for_precalib,file='./Q_for_precalib.RData')#for precailbration
-
-
-
-
-
+rm(list=setdiff(ls(), c("my_files","code")))

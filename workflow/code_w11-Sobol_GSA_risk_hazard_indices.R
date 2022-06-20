@@ -42,19 +42,19 @@ if (!is.null(wd))
   setwd(wd)
 
 # calculation of sobol indices for risk
-load('./precalibrated_ensemble.RData')
-load('./model_response.RData')
-#load('./Sobol_setup.RData')
+load('./Outputs/RData/precalibrated_ensemble.RData')
+#load('./Outputs/RData/model_response.RData')
+load('./Pregenerated_run_results/model_response.RData')
 
 #Set up required variables for Sobol indices
 params<-c("Q","Z","W","n_ch","n_fp","DEM","V","X")
-k=length(params)
-N=2000
-matrices<-c("A","B","AB")
-order<-"second"
-conf=0.95
-type="norm"
-R=1000
+k=length(params) # number of parameters
+N=2000 # number of prior samples for each matrix
+matrices<-c("A","B","AB") # matrix structure for Saltelli and Janon index calculation
+order<-"second" # calculation of up to second order indices
+conf=0.95 # confidence interval for bootstrapping
+type="norm" # method to compute the confidence interval
+R=10000 # number of bootstrap replications
 
 mat<-precalibrated_ensemble
 y_risk=model_response[,3]
@@ -62,7 +62,7 @@ y_risk=model_response[,3]
 
 # plot_uncertainty(Y = y_risk, N = N) + labs(y = "Counts", x = "Total Damage (USD)")
 
-pdf("scatter_plots_risk.pdf",width =11, height =8.5)
+pdf("./Outputs/Figures/scatter_plots_risk.pdf",width =11, height =8.5)
 plot_scatter(data = mat, N = N, Y = y_risk, params = params)
 dev.off()
 
@@ -73,42 +73,43 @@ ind <- sobol_indices(matrices = matrices, Y = y_risk, N = N, params = params, bo
 cols <- colnames(ind$results)[1:5]
 
 ind$results[, (cols):= round(.SD, 3), .SDcols = (cols)]
-ind
-write.csv(ind$results,"ind_totalDamage.csv")
+results<-ind$results
+save(results,file="./Outputs/RData/ind_totalDamage.RData")
 
 
 ind.dummy <- sobol_dummy(Y = y_risk, N = N, params = params, boot = T,R=R)
-write.csv(ind.dummy,'./dummy_risk.csv')
+save(ind.dummy,file='./Outputs/RData/dummy_risk.RData')
 # plot(ind, dummy = ind.dummy,order = "first")
 # plot(ind, dummy = ind.dummy,order = "second")
 
-# sub.sample <- seq(100, N, 100) # Define sub-samples
-# 
-# convergence<-sobol_convergence(
-#   matrices,
-#   Y=y_risk,
-#   N,
-#   sub.sample,
-#   params,
-#   first="saltelli",
-#   total = "jansen",
-#   order = order,
-#   seed = 666,
-#   plot.order=order,
-#   boot=T,
-#   R=R
-# )
-# write.csv(convergence[1],"converge_totalDamage.csv")
-# # convergence[2]
-# # convergence[3]
-# 
-# pdf("converge_first_risk.pdf",width =11, height =8.5)
+sub.sample <- seq(100, N, 100) # Define sub-samples
+
+convergence<-sobol_convergence(
+  matrices,
+  Y=y_risk,
+  N,
+  sub.sample,
+  params,
+  first="saltelli",
+  total = "jansen",
+  order = order,
+  seed = 666,
+  plot.order=order,
+  boot=T,
+  R=R
+)
+converg_res<-convergence[1]
+save(converg_res,file="./Outputs/RData/converge_totalDamage.RData")
 # convergence[2]
-# dev.off()
-# 
-# pdf("converge_second_risk.pdf",width =11, height =8.5)
 # convergence[3]
-# dev.off()
+
+pdf("./Outputs/Figures/converge_first_risk.pdf",width =11, height =8.5)
+convergence[2]
+dev.off()
+
+pdf("./Outputs/Figures/converge_second_risk.pdf",width =11, height =8.5)
+convergence[3]
+dev.off()
 
 ######################################################
 # calculation of sobol indices for hazard
@@ -119,12 +120,13 @@ ind <- sobol_indices(Y = y_haz, N = N, params = params, boot = T, R = R,
 cols <- colnames(ind$results)[1:5]
 
 ind$results[, (cols):= round(.SD, 3), .SDcols = (cols)]
-ind
-write.csv(ind$results,"ind_totalHazard.csv")
+results<-ind$results
+save(results,file="./Outputs/RData/ind_totalHazard.RData")
 
 ind.dummy <- sobol_dummy(Y = y_haz, N = N, params = params, boot = T,R=R)
 ind.dummy
-write.csv(ind.dummy,'./dummy_haz.csv')
+save(ind.dummy,file='./Outputs/RData/dummy_haz.RData')
 
 # plot(ind, dummy = ind.dummy,order = "first")
 # plot(ind, dummy = ind.dummy,order = "second")
+rm(list=setdiff(ls(), c("my_files","code")))

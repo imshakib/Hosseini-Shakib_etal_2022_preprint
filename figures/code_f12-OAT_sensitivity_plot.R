@@ -1,3 +1,41 @@
+##==============================================================================
+##
+## Script for OAT sensitivity results plot
+##
+## Authors: Iman Hosseini-Shakib (ishakib@gmail.com)
+##          Klaus Keller (kzk10@psu.edu)
+##
+##  Modified from a code by Mahkameh Zarekarizi available at:
+## https://github.com/scrim-network/Zarekarizi-flood-home-elavate/blob/master/Source_Code/S11_Return_Level.R
+##==============================================================================
+## Copyright 2022 Iman Hosseini-Shakib
+## This file is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+## 
+## This file is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this file.  If not, see <http://www.gnu.org/licenses/>.
+##==============================================================================
+## Instructions to run:
+## 1. If you have not already done so, change the working directory to the main 
+##    folder 
+##    To do so:
+##      1. If on RStudio, open the README.md file. Then on the menu bar, go to 
+##         Session-->Set Working Directory-->To Source File Location
+##      2. If on RStudio, on the lower right box, open the main folder
+##         Then, click on More --> Set as Working Directory
+##      3. On console, type the following command: 
+##         setwd("~/../MAIN_FOLDER") 
+## 2. To Run:
+##      1. Click on Source button or, on console, type: Source("../../....R")
+##==============================================================================
+
 # Set working directory
 (wd <- getwd())
 if (!is.null(wd))
@@ -5,14 +43,14 @@ if (!is.null(wd))
 
 
 #parameter sets and model responses
-load('OAT_parameter_set.RData')
-load('./OAT_model_response.RData')
+load('Outputs/RData/OAT_parameter_set.RData')
+load('./Outputs/RData/OAT_model_response.RData')
+#load('./Pregenerated_run_results/OAT_model_response.RData')
 params <- c("Q", "Z", "W", "n_ch", "n_fp", "DEM","V","X") # name of parameters
 labels<-c('Upstream discharge (Q)','River bed elevation (Z)','River width (W)',
           'Channel roughness (n_ch)','Floodplain roughness (n_fp)','DEM resolution (DEM)',
           'Vulnerability (V)','Exposure (X)')
 names(labels)<-params
-# parvals <- c(11300,0,0,0.03,0.12,30,0,0)
 
 # function to map  a bounded parameter range
 map_range <- function(x, bdin, bdout) {
@@ -64,7 +102,7 @@ colnames(haz_risk_table)<-c('variable','quantile','hazard','risk')
 colnames(ranges_table)<-c('parameter','min_haz','max_haz','min_risk','max_risk',
                           'haz_low_range','haz_up_range','risk_low_range','risk_up_range')
 ########### PLOT ##############
-pdf("OAT_Plot.pdf",width =7, height =5)
+pdf("./Outputs/Figures/OAT_Plot.pdf",width =7, height =5)
 
 par(cex=0.5,mai=c(0.4,0.1,0.1,0.1)) #c(bottom, left, top, right)
 
@@ -182,4 +220,4 @@ for (i in 1:nrow(tab)) {
 }
 abline(v=50,lty=2)
 dev.off()
-rm(list = ls())
+rm(list=setdiff(ls(), c("my_files","code")))

@@ -34,12 +34,14 @@
 ##      1. Click on Source button or, on console, type: Source("../../....R")
 ##==============================================================================
 library(GGally)
-wd<-getwd()
-setwd(wd)
+# Set working directory
+(wd <- getwd())
+if (!is.null(wd))
+  setwd(wd)
 
-load('./GEV_Parameters_MCMC.RData')
+load('./Outputs/RData/GEV_Parameters_MCMC.RData')
 myplot<-ggpairs(data.frame(mu=mcmcSamples[,1],
                            sigma=mcmcSamples[,2],
                            xi=mcmcSamples[,3]))
-ggsave('./MCMC_pairs.pdf')
-rm(list=ls())
+ggsave(filename = './Outputs/Figures/MCMC_pairs.pdf',plot=myplot)
+rm(list=setdiff(ls(), c("my_files","code")))

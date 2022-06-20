@@ -34,10 +34,13 @@
 ## 2. To Run:
 ##      1. Click on Source button or, on console, type: Source("../../....R")
 ##==============================================================================
-wd<-getwd()
-setwd(wd)
-load('./initial_parameter_set.RData')
-pdf('initial_parameters_pairs_plot.pdf',width =11, height =11)
+# Set working directory
+(wd <- getwd())
+if (!is.null(wd))
+  setwd(wd)
+
+load('./Outputs/RData/initial_parameter_set.RData')
+pdf('./Outputs/Figures/initial_parameters_pairs_plot.pdf',width =11, height =11)
 pairs(para,upper.panel = NULL,col="darkgreen")
 dev.off()
-rm(list = ls())
+rm(list=setdiff(ls(), c("my_files","code")))

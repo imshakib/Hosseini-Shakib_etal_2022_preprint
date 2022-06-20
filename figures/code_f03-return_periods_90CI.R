@@ -36,9 +36,11 @@
 ## 2. To Run:
 ##      1. Click on Source button or, on console, type: Source("../../....R")
 ##==============================================================================
-# Global variables
-wd<-getwd()
-setwd(wd)
+# Set working directory
+(wd <- getwd())
+if (!is.null(wd))
+  setwd(wd)
+
 myblue <- rgb(0.68, 0.85, 0.90,0.5)
 if("fExtremes" %in% (.packages())){
   detach("package:fExtremes", unload=TRUE)
@@ -83,9 +85,9 @@ median.rt <- function(obs){
 
 #---------------------------------------------------------------------
 # Load libraries and data required to run this code
-load("./annual_maxima_cms.RData") # Annual maxima of discharge in cms
-load("./GEV_Parameters.RData") # Frequentist maximum likelihood GEV parameter set
-load("./GEV_Parameters_MCMC.RData") # MCMC parameter sets
+load("./Outputs/RData/annual_maxima_cms.RData") # Annual maxima of discharge in cms
+load("./Outputs/RData/GEV_Parameters.RData") # Frequentist maximum likelihood GEV parameter set
+load("./Outputs/RData/GEV_Parameters_MCMC.RData") # MCMC parameter sets
 
 library(evir)
 plot_rps <- c(seq(1,2,0.1),seq(3,9,1),seq(10,90,10),seq(100,500,100))
@@ -102,13 +104,7 @@ upper_95 <- sapply(1:length(plot_rps), function (x) {quantile(MC_rl[x,],0.95)})
 
 # We need a second panel to show the density at return level of 500
 rl_500 <- MC_rl[32,]
-# rl_500_lb=quantile(rl_500,0.05)
-# rl_500_ub=quantile(rl_500,0.95)
-# rl_500[rl_500<rl_500_lb]=NA
-# rl_500[rl_500>rl_500_ub]=NA
 h500<-hist(rl_500,40,plot = T,probability = T)
-# maximum a posteriori return levels
-# MC_rl_MAP<-myreturnlevel(plot_rps,GEV_est_MAP[1],GEV_est_MAP[2],GEV_est_MAP[3])
 
 #frequentist maximum likelihood return levels
 MC_rl_freq<-myreturnlevel(plot_rps,GEV_params[1],GEV_params[2],GEV_params[3])
@@ -116,7 +112,7 @@ MC_rl_freq<-myreturnlevel(plot_rps,GEV_params[1],GEV_params[2],GEV_params[3])
 # posterior mean return levels
 MC_rl_mean<-sapply(1:nrow(MC_rl),function (x) {mean(MC_rl[x,])})
 ########### PLOT ##############
-pdf("Return_Period_90percent_Uncertainty_Plot_hist.pdf",width =3.94, height =2.43)
+pdf("./Outputs/Figures/Return_Period_90percent_Uncertainty_Plot_hist.pdf",width =3.94, height =2.43)
 
 # plot high-level variables
 par(cex=0.5,mai=c(0.4,0.4,0.2,0.15)) #c(bottom, left, top, right)
@@ -152,7 +148,6 @@ polygon(x = c(plot_rps[2:length(plot_rps)],rev(plot_rps[2:length(plot_rps)])),
 
 # With and without uncertainty lines
 lines(plot_rps[2:length(plot_rps)],MC_rl_mean[2:length(MC_rl_mean)],lty=1,col="blue")
-# lines(plot_rps[2:length(plot_rps)],MC_rl_MAP[2:length(MC_rl_MAP)],lty=1,col="red")
 lines(plot_rps[2:length(plot_rps)],MC_rl_freq[2:length(MC_rl_freq)],lty=1,col="red")
 
 # Observation points
@@ -193,9 +188,6 @@ polygon(x=c(0,h500$density[i],h500$density[i],0),
         border = myblue,lwd=0.5)
 }
 
-# mids<-h500$mids
-# polygon(x=c(h500$density[1:length(mids)],rep(0,length(mids))),y=c(mids,rev(mids)),
-#         col=myblue,border = NA,density=50)
 lines(x=c(xmin,xmax),y=c(ymean,ymean),col="blue")
 lines(x=c(xmin,xmax),y=c(yfreq,yfreq),col="red")
  
@@ -213,3 +205,4 @@ legend(2e-5,ymax-ymax*0.01,
 text(xmax*0.1,ymax-ymax*0.05,"b)",cex=1.5)
 
 dev.off()
+rm(list=setdiff(ls(), c("my_files","code")))

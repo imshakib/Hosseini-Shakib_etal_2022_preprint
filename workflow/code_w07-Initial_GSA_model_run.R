@@ -44,8 +44,8 @@ if (!is.null(wd))
 # model setup and run
 
 #parameter sets and functions
-load('initial_parameter_set.RData')
-source('./flood_extent_function.R')
+load('./Outputs/RData/initial_parameter_set.RData')
+source('./workflow/functions/flood_extent_function.R')
 
 # Read LISFLOOD-FP river and parameter files
 sample_river <-
@@ -53,18 +53,17 @@ sample_river <-
 sample_par <-
   as.matrix(read.delim2("./LISFLOOD/Sample_Selinsgrove.par", header = F)) # sample parameter file
 # Output folders
-if (dir.exists(paste0(wd, "/Initial_Outputs")) == F)
-  dir.create(paste0(wd, "/Initial_Outputs"))
-if (dir.exists(paste0(wd, "/Initial_Outputs/Extent")) == F)
-  dir.create(paste0(wd, "/Initial_Outputs/Extent"))
+if (dir.exists(paste0(wd, "./Outputs/Initial_Outputs")) == F)
+  dir.create(paste0(wd, "./Outputs/Initial_Outputs"))
+if (dir.exists(paste0(wd, "./Outputs/Initial_Outputs/Extent")) == F)
+  dir.create(paste0(wd, "./Outputs/Initial_Outputs/Extent"))
 
+setwd(paste0(wd,'/LISFLOOD'))
+system("./chmod a+x lisflood.exe") # activate the .exe file for the first time lisflood.exe is being executed
+setwd(wd)
 
 run_start = 1 #starting row number of the parameters table to read
 run_end = nrow(para) #ending row number of the parameters table to read
-
-
-#setwd(paste0(wd,'/LISFLOOD'))
-#system("./chmod a+x lisflood.exe") # activate the .exe file for the first time lisflood.exe is being executed
 
 #setup parallel backend to use many processors
 cores=detectCores()
@@ -90,4 +89,4 @@ stopCluster(cl)
 
 # model run end
 
-rm(list = ls())
+rm(list=setdiff(ls(), c("my_files","code")))

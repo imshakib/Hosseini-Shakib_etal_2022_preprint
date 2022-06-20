@@ -73,3 +73,4 @@ writeRaster(
   format = "ascii",
   overwrite = TRUE
 )
+rm(list=setdiff(ls(), c("my_files","code")))
