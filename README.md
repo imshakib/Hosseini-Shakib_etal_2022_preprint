@@ -44,7 +44,9 @@ R packages used in this study are as follows in alphabetical order:
 ## Reproduce my experiment
 These scripts perform a coupled analysis to estimate the expected annual flood damages of 2,000 hypothetical houses in Selinsgrove, PA. The analysis is organized in four parts: (1) initialization of the study region and hypothetical houses; (2) a statistical analysis to sample the discharge uncertainty; (3) a hydraulic model (LISFLOOD-FP) to estimate the flood hazard; (4) an exposure-vulnerability model to estimate the flood risk.
 
-Users need to clone the `R` scripts and the `Inputs` folder, then run the `main_script.R` code that sources the codes in the `workflow` and `figures` folders by the order. The exact roles of each piece of code and input files are described in detail as follows:
+We estimate the run time for this repository using 400 CPUs from the Pennsylvania State Unversity high-performance computation facilities to be approximately 3 weeks. If you do not have access to high-performance computation facilities and wish to reproduce our results and plots, you can use the files in the `pregenerated_run_results` to avoid running the precalibration (10,000 model runs), the Sobol global sensitivity analysis (76,000 model runs) and the Morris one-step-at-a-time sensitivity analysis (73 model runs).
+
+Users need to clone the `Inputs`, `LISFLOOD`,`figures`, and `workflow` folders, then run the `main_script.R` code that sources the codes in the `workflow` and `figures` folders by the order. The exact roles of each piece of code and input files are described in detail as follows:
 
 Workflow:
 | Script Name | Description |
