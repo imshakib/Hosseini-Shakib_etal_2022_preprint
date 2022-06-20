@@ -44,7 +44,7 @@ R packages used in this study are as follows in alphabetical order:
 ## Reproduce my experiment
 These scripts perform a coupled analysis to estimate the expected annual flood damages of 2,000 hypothetical houses in Selinsgrove, PA. The analysis is organized in four parts: (1) initialization of the study region and hypothetical houses; (2) a statistical analysis to sample the discharge uncertainty; (3) a hydraulic model (LISFLOOD-FP) to estimate the flood hazard; (4) an exposure-vulnerability model to estimate the flood risk.
 
-Users need to clone the R scripts and the “Inputs” folder, then run the "main_script.R" code that sources the codes in the "workflow" and "figures" folders by the order. The exact roles of each piece of code and input files are described in detail as follows:
+Users need to clone the `R` scripts and the `Inputs` folder, then run the `main_script.R` code that sources the codes in the `workflow` and `figures` folders by the order. The exact roles of each piece of code and input files are described in detail as follows:
 
 Workflow:
 | Script Name | Description |
