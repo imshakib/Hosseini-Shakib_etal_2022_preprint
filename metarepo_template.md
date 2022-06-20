@@ -49,29 +49,33 @@ Users need to clone the R scripts and the “Inputs” folder, then run the "mai
 Workflow:
 | Script Name | Description |
 | --- | --- |
-| `code_w00-packages.R` | Script to run the first part of my experiment |
-| `code_w01-DEMs_and_land_cover.R` | Script to run the last part of my experiment |
-| `code_w02-hypothetical_houses.R` | Script to run the last part of my experiment |
-| `code_w03-hypothetical_house_prices.R` | Script to run the last part of my experiment |
-| `code_w04-discharge_GEV_MLE.R` | Script to run the last part of my experiment |
-| `code_w05-MCMC_and_MLE_Bayes_Comparison.R` | Script to run the last part of my experiment |
-| `code_w06-initial_ensemble_for_precalib.R` | Script to run the last part of my experiment |
-| `code_w07-initial_GSA_model_run.R` | Script to run the last part of my experiment |
-| `code_w08-precalibration.R` | Script to run the last part of my experiment |
-| `code_w09-Sobol_GSA_ensemble.R` | Script to run the last part of my experiment |
-| `code_w10-Sobol_GSA_model_run.R` | Script to run the last part of my experiment |
-| `code_w11-Sobol_GSA_risk_hazard_indices.R` | Script to run the last part of my experiment |
-| `code_w12-radial_plot_tables_risk.R` | Script to run the last part of my experiment |
-| `code_w13-radial_plot_tables_hazard.R` | Script to run the last part of my experiment |
-| `code_w14-OAT_ensemble.R` | Script to run the last part of my experiment |
-| `code_w15-OAT_model_run.R` | Script to run the last part of my experiment |
+| `code_w00-packages.R` | Script to install the required R packages |
+| `code_w01-DEMs_and_land_cover.R` | Script to create land use map and DEMs at different resolutins for Selinsgrove, PA |
+| `code_w02-hypothetical_houses.R` | Script to create 2,000 hypothetical houses in Selinsgrove, PA |
+| `code_w03-hypothetical_house_prices.R` | Script to estimate hypothetical house prices based on the exposure module |
+| `code_w04-discharge_GEV_MLE.R` | Script to use frequentist maximum likelihood method to estimate GEV parameters for the annual maxima of discharge |
+| `code_w05-MCMC_and_MLE_Bayes_Comparison.R` | Script to use the Metropolis-Hastings Markov Chain Monte Carlo method to quantify the uncertainty sorrounding the annual maxima of discharge |
+| `code_w06-initial_ensemble_for_precalib.R` | Script to an initial ensemble of 10,000 rows for precalibration |
+| `code_w07-initial_model_run.R` | Script to run the flood hazard model for 10,000 runs for precalibration |
+| `code_w08-precalibration.R` | Script to perform precalibration |
+| `code_w09-Sobol_GSA_ensemble.R` | Script to set up the 76,000 row ensemble used for global sensitivity analysis |
+| `code_w10-Sobol_GSA_model_run.R` | Script to run flood risk model for the 76,000 row parameter set |
+| `code_w11-Sobol_GSA_risk_hazard_indices.R` | Script to calculate Sobol sensitivity indices for hazard and risk parameters |
+| `code_w12-radial_plot_tables_risk.R` | Script to set up the tables required for plotting the flood risk sensitivity results |
+| `code_w13-radial_plot_tables_hazard.R` | Script to set up the tables required for plotting the flood hazard sensitivity results |
+| `code_w14-OAT_ensemble.R` | Script to set up the ensemble of 73 rows for the Morris one-step-at-a-time sensitivity analysis |
+| `code_w15-OAT_model_run.R` | Script to run the flood risk model for the Morris one-step-at-a-time sensitivity analysis |
 
-4. Download and unzip the output data from my experiment [Output data](#output-data)
-5. Run the following scripts in the `workflow` directory to compare my outputs to those from the publication
+The following scripts are the functions used by the codes in the `workflow` directory and are stored in `workflow/funtions/`
 
-| Script Name | Description | How to Run |
-| --- | --- | --- |
-| `compare.py` | Script to compare my outputs to the original | `python3 compare.py --orig /path/to/original/data.csv --new /path/to/new/data.csv` |
+Functions:
+| Script Name | Description |
+| --- | --- |
+| `OAT_haz_risk_function.R` | Function to estimate average flood depth in m and total damage in USD for the Morris one-step-at-a-time analysis |
+| `batchmeans.R` | Functions to calculate consistent batch means and imse estimators of Monte Carlo standard errors |
+| `flood_extent_function.R` | Function to estimate flood extent and grid cell flood depth in m in Selinsgrove, PA used for precalibration |
+| `haz_risk_function.R` | Function to estimate average flood depth in m and total damage in USD for the Sobol global sensitivity analysis method  |
+| `sobol_functions.R` | Functions used in plotting Sobol sensitivity results for hazard and risk |
 
 ## Reproduce my figures
 Use the scripts found in the `figures` directory to reproduce the figures used in this publication.
