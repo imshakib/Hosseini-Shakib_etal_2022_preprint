@@ -29,7 +29,7 @@ The small size input data are stored in the "Inputs" folder and are as follows:
 - "Roads": shapefile of the Roads from Pennsylvania Spatial Data Access (https://www.pasda.psu.edu) clipped for the region
 - "Susquehanna_west_bank": shapefile of the west bank of Sussquehanna from Pennsylvania Spatial Data Access (https://www.pasda.psu.edu) clipped for the region
 - "clip_area": a rectangular shapefile that covers Selinsgrove, PA used to clip DEMs
-- "houses_for_sale": shapefile of the houses for sale in Selinsgrove obtained from Zillow
+- "houses_for_sale": shapefile of the houses for sale in Selinsgrove obtained from zillow.com accessed in February 2020
 - "Selinsgrove_shapefile": shapefile of Selinsgrove, PA from Pennsylvania Spatial Data Access (https://www.pasda.psu.edu)
 
 ## Contributing modeling software
