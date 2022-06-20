@@ -1,12 +1,10 @@
-_your zenodo badge here_
+# Hosseini-Shakib_etal_2022_Nat_Clim_Chang
 
-# lastname-etal_year_journal
+**Uncertainties surrounding flood hazard estimates is the primary driver of riverine flood risk projections**
 
-**A long-term global energy-economic model of carbon dioxide release from fossil fuel use**
+Iman Hosseini-Shakib<sup>1\*<sup>, Sanjib Sharma<sup>1<sup>, Benjamin Seiyon Lee<sup>2<sup>, Vivek Anand Srikrishnan<sup>3<sup>, Robert Nicholas<sup>1,4<sup>, and Klaus Keller<sup>1,5<sup>
 
-Jae Edmonds<sup>1\*</sup> and John Reilly<sup>1</sup>
-
-<sup>1 </sup> Institute for Energy Analysis, Oak Ridge Associated Universities, 1346 Connecticut Avenue, NW, Washington, DC 20036, USA
+<sup>1 </sup> Earth and Environmental Systems Institute, The Pennsylvania State University, University Park, PA, USA
 
 \* corresponding author:  email@myorg.gov
 
