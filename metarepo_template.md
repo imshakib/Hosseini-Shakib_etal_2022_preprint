@@ -55,8 +55,8 @@ Workflow:
 | `code_w03-hypothetical_house_prices.R` | Script to run the last part of my experiment |
 | `code_w04-discharge_GEV_MLE.R` | Script to run the last part of my experiment |
 | `code_w05-MCMC_and_MLE_Bayes_Comparison.R` | Script to run the last part of my experiment |
-| `code_w06-Initial_ensemble_for_precalib.R` | Script to run the last part of my experiment |
-| `code_w07-Initial_GSA_model_run.R` | Script to run the last part of my experiment |
+| `code_w06-initial_ensemble_for_precalib.R` | Script to run the last part of my experiment |
+| `code_w07-initial_GSA_model_run.R` | Script to run the last part of my experiment |
 | `code_w08-precalibration.R` | Script to run the last part of my experiment |
 | `code_w09-Sobol_GSA_ensemble.R` | Script to run the last part of my experiment |
 | `code_w10-Sobol_GSA_model_run.R` | Script to run the last part of my experiment |
