@@ -68,7 +68,7 @@ Workflow:
 | `code_w14-OAT_ensemble.R` | Script to set up the ensemble of 73 rows for the Morris one-step-at-a-time sensitivity analysis |
 | `code_w15-OAT_model_run.R` | Script to run the flood risk model for the Morris one-step-at-a-time sensitivity analysis |
 
-The following scripts are the functions used by the codes in the `workflow` directory and are stored in `workflow/funtions/`
+The following scripts are the functions used by the codes in the `workflow` directory and are stored in `workflow/functions/`
 
 Functions:
 | Script Name | Description |
