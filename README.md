@@ -94,6 +94,5 @@ Figures:
 | `code_f07-precalibrated_parameters_pdf_plots.R` | Script to plot pdfs of parameters used in the Sobol global sensitivity analysis |
 | `code_f08-precalibrated_parameter_pairs_plot.R` | Script to plot the parameter sets pairs used in the Sobol global sensitivity analysis |
 | `code_f09-model_response_plots.R` | Script to plot flood hazard and risk results used in the Sobol global sensitivity analysis |
-| `code_f10-radial_plot_hazard.R` | Script to plot the results of flood hazard global sensitivity analysis |
-| `code_f11-radial_plot_risk.R` | Script to plot the results of flood risk global sensitivity analysis |
-| `code_f12-OAT_sensitivity_plot.R` | Script to plot the results of the Morris one-step-at-a-time sensitivity analysis |
+| `code_f10-radial_plots.R` | Script to plot the results of flood hazard and risk global sensitivity analysis |
+| `code_f11-OAT_sensitivity_plot.R` | Script to plot the results of the Morris one-step-at-a-time sensitivity analysis |

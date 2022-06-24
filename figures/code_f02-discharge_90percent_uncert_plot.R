@@ -144,7 +144,7 @@ axis(2, pos=xmin,at = c(0,round(max(upper_95),5)),labels=c(0,"0.0004"),lwd=1,cex
 
 # x and y axis labels 
 mtext(expression("Discharge (m"^3*"/s)"),side=1,line=3,cex=0.8)
-mtext("Density",side=2,line=2.5,cex=0.8)
+mtext("Probability Density",side=2,line=2.5,cex=0.8)
 
 # Box around the plot 
 lines(x=c(xmin,xmax),y=c(ymin,ymin))
@@ -174,7 +174,7 @@ legend(12000,ymax-ymax*0.01,
        pt.cex = c(NA,NA,NA,2,2),
        cex=1.5)
 # Panel indicator 
-text(xmin+1000,ymax-ymax*0.05,"a)",cex=1.5)
+text(xmin+1000,ymax-ymax*0.05,"a)",cex=2)
 
 ################################################
 ### Panel B
@@ -193,11 +193,13 @@ plot(plot_Qs,mean_surv_bayes, xlim = c(xmin,xmax),pch=NA,xaxt="n",xaxs="i",yaxs=
 
 # Axes 
 axis(1,pos=ymin, at=seq(0,xmax,5000),labels=formatC(seq(0,xmax,5000), format="d", big.mark=','),cex.axis=1.5,lwd=1)
-axis(2, pos=xmin,lwd=1,cex.axis=1.5)
+axis(2, pos=xmin,at=c(1e-4,1e-3,1e-2,1e-1,1e0),
+     labels = c(expression(10^-4),expression(10^-3),expression(10^-2),expression(10^-1),1),
+     lwd=1,cex.axis=1.5)
 
 # x and y axis labels 
 mtext(expression("Discharge (m"^3*"/s)"),side=1,line=3,cex=0.8)
-mtext("Survival (1-CDF)",side=2,line=2.5,cex=0.8)
+mtext("Survival Function (1-CDF)",side=2,line=2.5,cex=0.8)
 
 # Box around the plot 
 lines(x=c(xmin,xmin),y=c(ymin,ymax))
@@ -228,7 +230,7 @@ legend(12000,1.5,
        pt.cex = c(NA,NA,NA,2,2),
        cex=1.5)
 
-text(xmin+1000,0.5,"b)",cex=1.5)
+text(xmin+1000,0.5,"b)",cex=2)
 
 dev.off()
 rm(list=setdiff(ls(), c("my_files","code")))

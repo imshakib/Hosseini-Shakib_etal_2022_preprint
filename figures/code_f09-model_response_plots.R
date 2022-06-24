@@ -40,7 +40,7 @@ if (!is.null(wd))
 
 load('./Outputs/RData/precalibrated_param_set.RData')
 load('./Outputs/RData/model_response.RData')
-#load('./Pregenerated_run_results/model_response.RData')
+# load('./Pregenerated_outputs/RData/model_response.RData')
 params<-c('Discharge (CMS)','River Bed Elevation Error (m)',
           'River Width Error','Channel Roughness',
           'Floodplain Roughness','DEM Resolution (m)',

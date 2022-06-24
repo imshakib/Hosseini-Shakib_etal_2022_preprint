@@ -65,16 +65,16 @@ tmp <- paste0(getwd(), "/Outputs/RData/")
 if(dir.exists(tmp)==F){dir.create(tmp, recursive=T)}
 
 # Start running the codes 
-my_files<-list.files('./workflow/', pattern = "code_w")
+my_files<-list.files('./workflow/', pattern = "code_w")[-c(8,11,16)]
 for (code  in my_files) {
-  source(paste0('./workflow/',i))
-  print(paste0("Finished running ",i))
+  source(paste0('./workflow/',code))
+  print(paste0("Finished running ",code))
 }
 
 my_files<-list.files('./figures/', pattern = "code_f")
 for (code  in my_files) {
-  source(paste0('./figures/',j))
-  print(paste0("Finished running ",j))
+  source(paste0('./figures/',code))
+  print(paste0("Finished running ",code))
 }
 
 rm(list=ls())

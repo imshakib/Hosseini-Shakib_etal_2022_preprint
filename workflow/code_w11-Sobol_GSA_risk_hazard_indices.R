@@ -44,7 +44,7 @@ if (!is.null(wd))
 # calculation of sobol indices for risk
 load('./Outputs/RData/precalibrated_ensemble.RData')
 load('./Outputs/RData/model_response.RData')
-#load('./Pregenerated_run_results/model_response.RData')
+# load('./Pregenerated_outputs/RData/model_response.RData')
 
 #Set up required variables for Sobol indices
 params<-c("Q","Z","W","n_ch","n_fp","DEM","V","X")

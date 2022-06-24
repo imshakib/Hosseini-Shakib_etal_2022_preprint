@@ -86,7 +86,7 @@ for(i in 1:length(runs)){
 colnames(precalib_data)<-c("run_no.","flood_depth_(m)")
 save(precalib_data,file = './Outputs/RData/precalib_data.RData')
 
-# load('./Pregenerated_run_results/precalib_data.RData')
+# load('./Pregenerated_outputs/RData/precalib_data.RData')
 
 pdf("./Outputs/Figures/precalibration.pdf",width =8, height =8/1.618)
 
