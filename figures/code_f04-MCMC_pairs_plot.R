@@ -40,8 +40,13 @@ if (!is.null(wd))
   setwd(wd)
 
 load('./Outputs/RData/GEV_Parameters_MCMC.RData')
+# load('./Pregenerated_outputs/RData/GEV_Parameters_MCMC.RData')
 myplot<-ggpairs(data.frame(mu=mcmcSamples[,1],
                            sigma=mcmcSamples[,2],
-                           xi=mcmcSamples[,3]))
+                           xi=mcmcSamples[,3]),
+                upper = list(continuous = wrap("cor", size = 6)))+
+  theme(panel.background = element_blank(),
+        panel.border = element_rect(colour = "gray", fill=NA, size=0),
+        text = element_text(size = 14))
 ggsave(filename = './Outputs/Figures/MCMC_pairs.pdf',plot=myplot)
 rm(list=setdiff(ls(), c("my_files","code")))
