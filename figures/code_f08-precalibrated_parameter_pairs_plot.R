@@ -40,17 +40,24 @@ library(GGally)
 if (!is.null(wd))
   setwd(wd)
 
+# load('./Pregenerated_outputs/RData/survived_rows_after_precalib.RData')
+# load('./Pregenerated_outputs/RData/deleted_rows_after_precalib.RData')
+# load('./Pregenerated_outputs/RData/initial_parameter_set.RData')
 load('./Outputs/RData/survived_rows_after_precalib.RData')
 load('./Outputs/RData/deleted_rows_after_precalib.RData')
 load('./Outputs/RData/initial_parameter_set.RData')
-
+para<-para[,-1]
 unrealistic_params<-para[del.rows,]
-unrealistic_params<-data.frame(unrealistic_params,type='1-rejected')
+unrealistic_params<-data.frame(unrealistic_params,type='rejected')
 realistic_params<-para[survived.rows,]
-realistic_params<-data.frame(realistic_params,type='2-surviving')
+realistic_params<-data.frame(realistic_params,type='surviving')
 
 parameters<-rbind(realistic_params,unrealistic_params)
-myplot<-ggpairs(parameters,aes(colour=type,alpha=0.5))
+myplot<-ggpairs(parameters,aes(colour=type,alpha=0.5),
+                upper = list(continuous = wrap("cor", size = 6)))+
+  theme(panel.background = element_blank(),
+       panel.border = element_rect(colour = "gray", fill=NA, size=0),
+       text = element_text(size = 20))
 ggsave('./Outputs/Figures/precalib_pairs_plot.pdf',myplot,width = 16,height = 16,units = c("in"),dpi=1200)
 
 myplot1<-ggpairs(realistic_params[1:6])
