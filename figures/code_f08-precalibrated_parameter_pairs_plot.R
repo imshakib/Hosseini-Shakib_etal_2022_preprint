@@ -60,10 +60,18 @@ myplot<-ggpairs(parameters,aes(colour=type,alpha=0.5),
        text = element_text(size = 20))
 ggsave('./Outputs/Figures/precalib_pairs_plot.pdf',myplot,width = 16,height = 16,units = c("in"),dpi=1200)
 
-myplot1<-ggpairs(realistic_params[1:6])
+myplot1<-ggpairs(realistic_params[1:5],
+                 upper = list(continuous = wrap("cor", size = 8)))+
+  theme(panel.background = element_blank(),
+        panel.border = element_rect(colour = "gray", fill=NA, size=0),
+        text = element_text(size = 20))
 ggsave('./Outputs/Figures/precalib_surviving_pairs_plot.pdf',myplot1,width = 16,height = 16,units = c("in"),dpi=1200)
 
-myplot2<-ggpairs(unrealistic_params[1:6])
+myplot2<-ggpairs(unrealistic_params[1:5],
+                 upper = list(continuous = wrap("cor", size = 8)))+
+  theme(panel.background = element_blank(),
+        panel.border = element_rect(colour = "gray", fill=NA, size=0),
+        text = element_text(size = 20))
 ggsave('./Outputs/Figures/precalib_rejected_pairs_plot.pdf',myplot2,width = 16,height = 16,units = c("in"),dpi=1200)
 
 rm(list=setdiff(ls(), c("my_files","code")))
