@@ -52,6 +52,14 @@ library(plotrix)
 
 source('./workflow/functions/sobol_functions.R')
 
+# input files that contain sobol indices
+sobol_file_1 <- "./Outputs/RData/radial_plot_table_1_haz.RData"
+sobol_file_2 <- "./Outputs/RData/radial_plot_table_2_haz.RData"
+load('./Outputs/RData/dummy_haz.RData')
+# sobol_file_1 <- "./Pregenerated_outputs/RData/radial_plot_table_1_haz.RData"
+# sobol_file_2 <- "./Pregenerated_outputs/RData/radial_plot_table_2_haz.RData"
+# load('./Pregenerated_outputs/RData/dummy_haz.RData')
+
 pdf('./Outputs/Figures/radial_plots.pdf',width =3.94*2, height =3.94)
 par(mfrow=c(1,2),cex=0.7)
 
@@ -60,13 +68,6 @@ par(mfrow=c(1,2),cex=0.7)
 ##HAZARD RADIAL PLOT
 #######################
 #######################
-
-# input files that contain sobol indices
-sobol_file_1 <- "./Outputs/RData/radial_plot_table_1_haz.RData"
-sobol_file_2 <- "./Outputs/RData/radial_plot_table_2_haz.RData"
-
-
-
 n_params <- 8 # set number of parameters
 names=c('Discharge','River Bed\nElevation','River\nWidth','Channel\nRoughness',
         'Floodplain\nRoughness','DEM\nResolution','','')
@@ -101,7 +102,6 @@ colnames(s2_conf_low) <- rownames(s2_conf_low) <- s1st$Parameter
 colnames(s2_conf_high) <- rownames(s2_conf_high) <- s1st$Parameter
 
 # Determine which indices are statistically significant
-load('./Outputs/RData/dummy_haz.RData')
 dummy<-ind.dummy
 sig.cutoff_S1 <- dummy$high.ci[1]
 sig.cutoff_ST <- dummy$high.ci[2]
@@ -118,13 +118,11 @@ s1st1$sig[i]<-max(s1st1$s1_sig[i],s1st1$st_sig[i])
 # S2: using the confidence intervals
 s2_sig1 <- stat_sig_s2(s2,s2_conf_low,s2_conf_high,method='gtr',greater=0)
 
-
 # Settings for the radial plot
 cent_x=0
 cent_y=0.2
 radi=0.6
 alph=360/(n_params)
-
 
 #pdf('./Outputs/Figures/radial_plot_hazard.pdf',width =3.94, height =3.94)
 par(mai=c(0.1,0.1,0.1,0.1))
@@ -180,7 +178,7 @@ text(x1+-0.3,y1+-0.75,'Total-order')
 lines(c(x1+0.1,x1+0.2),c(y1+-0.97,y1+-0.97),lwd=5,col="darkblue")
 text(x1+0.15,y1+-0.83,paste(round(100*max(s2[s2_sig1>=1],na.rm=T)),'%',sep=""))
 text(x1+0.15,y1+-0.75,'Second-order')
-mtext("a)",adj=0,line=-1)
+mtext("a)",adj=0,line=-2,cex=2)
 #######################
 #######################
 ##RISK RADIAL PLOT
@@ -189,6 +187,10 @@ mtext("a)",adj=0,line=-1)
 # input files that contain sobol indices
 sobol_file_1 <- "./Outputs/RData/radial_plot_table_1_risk.RData"
 sobol_file_2 <- "./Outputs/RData/radial_plot_table_2_risk.RData"
+load('./Outputs/RData/dummy_risk.RData')
+# sobol_file_1 <- "./Pregenerated_outputs/RData/radial_plot_table_1_risk.RData"
+# sobol_file_2 <- "./Pregenerated_outputs/RData/radial_plot_table_2_risk.RData"
+# load('./Pregenerated_outputs/RData/dummy_risk.RData')
 
 n_params <- 8 # set number of parameters
 names=c('Discharge','River Bed\nElevation','River\nWidth','Channel\nRoughness',
@@ -224,7 +226,6 @@ colnames(s2_conf_low) <- rownames(s2_conf_low) <- s1st$Parameter
 colnames(s2_conf_high) <- rownames(s2_conf_high) <- s1st$Parameter
 
 # Determine which indices are statistically significant
-load('./Outputs/RData/dummy_risk.RData')
 dummy<-ind.dummy
 sig.cutoff_S1 <- dummy$high.ci[1]
 sig.cutoff_ST <- dummy$high.ci[2]
@@ -305,7 +306,7 @@ text(x1+-0.3,y1+-0.75,'Total-order')
 lines(c(x1+0.1,x1+0.2),c(y1+-0.97,y1+-0.97),lwd=5,col="darkblue")
 text(x1+0.15,y1+-0.83,paste(round(100*max(s2[s2_sig1>=1],na.rm=T)),'%',sep=""))
 text(x1+0.15,y1+-0.75,'Second-order')
-mtext("b)",adj=0,line=-1)
+mtext("b)",adj=0,line=-2,cex=2)
 
 dev.off()
 rm(list=setdiff(ls(), c("my_files","code")))
