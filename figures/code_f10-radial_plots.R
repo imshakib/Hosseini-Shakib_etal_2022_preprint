@@ -178,7 +178,7 @@ text(x1+-0.3,y1+-0.75,'Total-order')
 lines(c(x1+0.1,x1+0.2),c(y1+-0.97,y1+-0.97),lwd=5,col="darkblue")
 text(x1+0.15,y1+-0.83,paste(round(100*max(s2[s2_sig1>=1],na.rm=T)),'%',sep=""))
 text(x1+0.15,y1+-0.75,'Second-order')
-mtext("a)",adj=0,line=-2,cex=2)
+mtext("a)",adj=0,line=-2,cex=1.5)
 #######################
 #######################
 ##RISK RADIAL PLOT
@@ -306,7 +306,7 @@ text(x1+-0.3,y1+-0.75,'Total-order')
 lines(c(x1+0.1,x1+0.2),c(y1+-0.97,y1+-0.97),lwd=5,col="darkblue")
 text(x1+0.15,y1+-0.83,paste(round(100*max(s2[s2_sig1>=1],na.rm=T)),'%',sep=""))
 text(x1+0.15,y1+-0.75,'Second-order')
-mtext("b)",adj=0,line=-2,cex=2)
+mtext("b)",adj=0,line=-2,cex=1.5)
 
 dev.off()
 rm(list=setdiff(ls(), c("my_files","code")))

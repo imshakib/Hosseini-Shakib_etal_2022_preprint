@@ -88,6 +88,9 @@ median.rt <- function(obs){
 load("./Outputs/RData/annual_maxima_cms.RData") # Annual maxima of discharge in cms
 load("./Outputs/RData/GEV_Parameters.RData") # Frequentist maximum likelihood GEV parameter set
 load("./Outputs/RData/GEV_Parameters_MCMC.RData") # MCMC parameter sets
+# load("./Pregenerated_outputs/RData/annual_maxima_cms.RData") # Annual maxima of discharge in cms
+# load("./Pregenerated_outputs/RData/GEV_Parameters.RData") # Frequentist maximum likelihood GEV parameter set
+# load("./Pregenerated_outputs/RData/GEV_Parameters_MCMC.RData") # MCMC parameter sets
 
 library(evir)
 plot_rps <- c(seq(1,2,0.1),seq(3,9,1),seq(10,90,10),seq(100,500,100))
