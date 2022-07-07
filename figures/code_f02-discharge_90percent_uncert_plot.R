@@ -52,10 +52,15 @@ if("evd" %in% (.packages())){
 
 library(evir)
 myblue<-rgb(0.68, 0.85, 0.90,0.5)
+
 load("./Outputs/RData/annual_maxima_cms.RData") # Annual maxima of discharge in cms
 load("./Outputs/RData/GEV_Parameters.RData") # Frequentist maximum likelihood GEV parameter set
 load("./Outputs/RData/GEV_Parameters_MCMC.RData") # MCMC parameter sets
 load('./Outputs/RData/Q_sample_A.RData') # sampled discharge data
+# load("./Pregenerated_outputs/RData/annual_maxima_cms.RData") # Annual maxima of discharge in cms
+# load("./Pregenerated_outputs/RData/GEV_Parameters.RData") # Frequentist maximum likelihood GEV parameter set
+# load("./Pregenerated_outputs/RData/GEV_Parameters_MCMC.RData") # MCMC parameter sets
+# load('./Pregenerated_outputs/RData/Q_sample_A.RData') # sampled discharge data
 
 pdf_fun <- function(x,mu,sigma,xi){
   d<-dgev(x,mu=mu,sigma=sigma,xi=xi)
@@ -174,7 +179,7 @@ legend(12000,ymax-ymax*0.01,
        pt.cex = c(NA,NA,NA,2,2),
        cex=1.5)
 # Panel indicator 
-text(xmin+1000,ymax-ymax*0.05,"a)",cex=2)
+text(xmin+1000,ymax-ymax*0.05,"a)",cex=2.5)
 
 ################################################
 ### Panel B
@@ -230,7 +235,7 @@ legend(12000,1.5,
        pt.cex = c(NA,NA,NA,2,2),
        cex=1.5)
 
-text(xmin+1000,0.5,"b)",cex=2)
+text(xmin+1000,0.5,"b)",cex=2.5)
 
 dev.off()
 rm(list=setdiff(ls(), c("my_files","code")))
